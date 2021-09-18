@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Toc-Toe</title>
+    <style>
+           *{
+            margin: 0;
+            padding: 0;
+            }
+        body{
+            height: 100vh;
+            width: 100vw;
+            }
+        header{
+            width: 100%;
+            height: 15%;
+            font-size: 3rem;
+            padding-top: 0.8rem;
+            box-sizing: border-box;
+            background-image: url("https://wallpaper.dog/large/5482712.jpg");
+            background-size: cover;
+            color: black;
+            text-align: center;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+        .section-part{
+            width: 100%;
+            height:85%;
+            /* background-color: burlywood; */
+            background-image: url("https://wallpaper.dog/large/5482712.jpg");
+            background-size: cover;            
+            display: flex;
+        
+            justify-content: center;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        .game-part{
+            height: 90%;
+            width: 60%;
+            /* background-color: red; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+         
+            backdrop-filter: blur(5px) saturate(200%);
+    -webkit-backdrop-filter: blur(5px) saturate(200%);
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(209, 213, 219, 0.3);
+        }
+        .result-part{
+            height: 90%;
+            width: 30%;
+            backdrop-filter: blur(5px) saturate(200%);
+    -webkit-backdrop-filter: blur(5px) saturate(200%);
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(209, 213, 219, 0.3);
+        }
+        table{
+            width: 50%;
+            height: 50%;
+        }
+        /* td{
+            border: 2px solid black;
+            box-sizing: border-box;
+        } */
+        td{
+            border:3px solid black;
+                width:60px;
+                height:60px;
+                text-align:center;
+                font-size:40px;  
+                /* background-color:#70af85; */
+                
+            }
+        .wins{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        .btn{
+            font-size: 1.5rem;
+            font-weight: 400;
+            border-radius: 10px;
+            border: none;
+            padding: 10px;
+            backdrop-filter: blur(5px) saturate(200%);
+    -webkit-backdrop-filter: blur(5px) saturate(200%);
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(209, 213, 219, 0.3);
+
+        }
+        .btn:hover{
+            backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    background-color: rgba(255, 255, 255, 0.44);
+        }
+    </style>
+</head>
+<body>
+    <header>
+       TIC-TOC-TOE
+    </header>
+    <section class="section-part">
+         <div class="game-part">
+           <table >
+               <tr>
+                   <td onclick="markBox(this,0,0)"></td>
+                   <td onclick="markBox(this,0,1)"></td>
+                   <td onclick="markBox(this,0,2)"></td>
+               </tr>
+               <tr>
+                    <td onclick="markBox(this,1,0)"></td>
+                    <td onclick="markBox(this,1,1)"></td>
+                    <td onclick="markBox(this,1,2)"></td>
+               </tr>
+               <tr>
+                <td onclick="markBox(this,2,0)"></td>
+                <td onclick="markBox(this,2,1)"></td>
+                <td onclick="markBox(this,2,2)"></td>
+            </tr>
+           </table>
+
+           <button onclick="reset()" class="btn" >RESET</button>
+       </div>
+       <div class="result-part">
+           <h1 style="text-align: center ;">RESULT</h1>
+           <div class="wins"> 
+             <h1 class="win-losse" id="winnerBanner"></h1>
+           </div>
+        </div>
+    </section>
+
+    <script>
+        // 1 first step to intialise all variable
+        var tictoctoe=[
+                        ['','',''],
+                        ['','',''],
+                        ['','','']
+                      ];
+        var players={
+                      PLAYERS1:'O',
+                      PLAYESR2:'X'
+                    }
+        var currentPlayers=players.PLAYERS1;
+        
+        function reset()
+            {
+            var elementArray=document.querySelectorAll('td');
+            elementArray.forEach(el=>el.innerHTML='')
+            // document.getElementById('winnerBanner').innerHTML='';
+            tictactoe=[
+                            ['','',''],
+                            ['','',''],
+                            ['','','']
+                            ];
+            currentPlayers=players.PLAYERS1;
+            }
+
+
+        function updateTheBanner(){
+            document.getElementById("winnerBanner").innerHTML=currentPlayers + ' wins !'
+            reset();
+        }
+        function currentPlayerWinner(){
+
+            return ((tictoctoe[0][0]===currentPlayers && tictoctoe[0][1]===currentPlayers && tictoctoe[0][2]===currentPlayers) ||
+                (tictoctoe[1][0]===currentPlayers && tictoctoe[1][1]===currentPlayers && tictoctoe[1][2]===currentPlayers) ||
+                (tictoctoe[2][0]===currentPlayers && tictoctoe[2][1]===currentPlayers && tictoctoe[2][2]===currentPlayers) ||
+                (tictoctoe[0][0]===currentPlayers && tictoctoe[1][0]===currentPlayers && tictoctoe[2][0]===currentPlayers) ||
+                (tictoctoe[0][1]===currentPlayers && tictoctoe[1][1]===currentPlayers && tictoctoe[2][1]===currentPlayers) ||
+                (tictoctoe[0][2]===currentPlayers && tictoctoe[1][2]===currentPlayers && tictoctoe[2][2]===currentPlayers) ||
+                (tictoctoe[0][0]===currentPlayers && tictoctoe[1][1]===currentPlayers && tictoctoe[2][2]===currentPlayers) ||
+                (tictoctoe[0][2]===currentPlayers && tictoctoe[1][1]===currentPlayers && tictoctoe[2][0]===currentPlayers))
+        }
+        // 2 secands step to 
+        function markBox(element,row,col)
+        {
+            tictoctoe[row][col]=currentPlayers;
+            element.innerHTML=currentPlayers;
+            //check current player is winner or not
+            if(currentPlayerWinner()){
+                 updateTheBanner();
+               
+            }
+            currentPlayers=currentPlayers===players.PLAYERS1?players.PLAYESR2:players.PLAYERS1;
+        }
+          
+        
+
+    </script>
+</body>
+</html>
